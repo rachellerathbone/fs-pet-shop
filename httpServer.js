@@ -39,7 +39,7 @@ const server = http.createServer((req, res) => {
         const petJSON = JSON.stringify(pets[indexPet]);
         res.statusCode = 200;
         res.setHeader('Content-Type', 'application/json');
-        res.end(petsJSON);
+        res.end(petJSON);
       }}
     });
   }
