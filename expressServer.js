@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const guestsPath = path.join(__dirname, 'guests.json');
+const petsPath = path.join(__dirname, 'pets.json');
 
 const express = require('express');
 const app = express();
@@ -15,38 +15,38 @@ app.disable('x-powered-by');
 app.use(morgan('short'));
 app.use(bodyParser.json());
 
-app.get('/guests', (req, res) => {
-  fs.readFile(guestsPath, 'utf8', (err, guestsJSON) => {
+app.get('/pets', (req, res) => {
+  fs.readFile(petsPath, 'utf8', (err, petsJSON) => {
     if (err) {
       console.error(err.stack);
       return res.sendStatus(500);
     }
 
-    const guests = JSON.parse(guestsJSON);
+    const pets = JSON.parse(petsJSON);
 
-    res.send(guests);
+    res.send(pets);
   });
 });
 
-app.post('/guests', (req, res) => {
-  fs.readFile(guestsPath, 'utf8', (readErr, guestsJSON) => {
+app.post('/pets', (req, res) => {
+  fs.readFile(petsPath, 'utf8', (readErr, petsJSON) => {
     if (readErr) {
       console.error(readErr.stack);
       return res.sendStatus(500);
     }
 
-    const guests = JSON.parse(guestsJSON);
-    const guest = req.body.name;
+    const pets = JSON.parse(petsJSON);
+    const pet = req.body.name;
 
     if (!guest) {
       return res.sendStatus(400);
     }
 
-    guests.push(guest);
+    pets.push(pet);
 
-    const newGuestsJSON = JSON.stringify(guests);
+    const newpetsJSON = JSON.stringify(pets);
 
-    fs.writeFile(guestsPath, newGuestsJSON, (writeErr) => {
+    fs.writeFile(petsPath, newpetsJSON, (writeErr) => {
       if (writeErr) {
         console.error(writeErr.stack);
         return res.sendStatus(500);
@@ -58,22 +58,22 @@ app.post('/guests', (req, res) => {
   });
 });
 
-app.get('/guests/:id', (req, res) => {
-  fs.readFile(guestsPath, 'utf8', (err, guestsJSON) => {
+app.get('/pets/:id', (req, res) => {
+  fs.readFile(petsPath, 'utf8', (err, petsJSON) => {
     if (err) {
       console.error(err.stack);
       return res.sendStatus(500);
     }
 
     const id = Number.parseInt(req.params.id);
-    const guests = JSON.parse(guestsJSON);
+    const pets = JSON.parse(petsJSON);
 
-    if (id < 0 || id >= guests.length || Number.isNaN(id)) {
+    if (id < 0 || id >= pets.length || Number.isNaN(id)) {
       return res.sendStatus(404);
     }
 
-    res.set('Content-Type', 'text/plain');
-    res.send(guests[id]);
+    res.set('Content-Type', 'application/json');
+    res.send(pets[id]);
   });
 });
 
@@ -84,3 +84,5 @@ app.use((req, res) => {
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
 });
+
+module.exports = app;
