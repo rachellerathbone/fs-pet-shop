@@ -21,13 +21,16 @@
   "author": "Ryan Sobol <contact@ryansobol.com>",
   "license": "MIT",
   "engines": {
-  "node": "6.6.0"
-},
+    "node": "6.6.0"
+  },
   "bugs": {
     "url": "https://github.com/gSchool/fs-pet-shop/issues"
   },
   "homepage": "https://github.com/gSchool/fs-pet-shop#readme",
   "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "morgan": "^1.7.0",
     "nodemon": "^1.9.1"
   },
   "devDependencies": {
